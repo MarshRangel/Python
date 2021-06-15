@@ -115,9 +115,9 @@ def extract_name_value(signals_df):
     ]
     # print(names_list)
 
-    # for i in _signals.Name:
+    # for i in signals_df.Name:
     #     names_list = i
-    #     signals = _signals[_signals["Name"] == names_list]
+    #     signals = signals_df[signals_df["Name"] == names_list]
     #     print(signals)
     #     matplotcanvas(signals)
 
