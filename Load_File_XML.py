@@ -100,10 +100,10 @@ def transfor_data_atri(rootXML):
 
 # Function to extract the Name and Value attributes
 def extract_name_value(signals_df):
-    # print(_signals)
+    # print(signals_df)
 
-    # for i in _signals.Name:
-    #     signal = _signals[_signals.Name.isin([i])]
+    # for i in signals_df.Name:
+    #     signal = signals_df[signals_df.Name.isin([i])]
     #     row_values = signal.T
     #     vector = row_values.iloc[[1]]
     #     print(vector)
