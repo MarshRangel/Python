@@ -385,7 +385,7 @@
                 <Signal Name="HMI" Value="2 On" />
               </Child_7_d>
               <Child_7_d Frame="{x:Null}" TPChk="{x:Null}" Description="{x:Null}" IsFreeTP="{x:Null}" Issues="{x:Null}" TPIndex="{x:Null}" Bus="Data" Message="0x4D0 ACU_MCM" Duration="0" HasRamp="False" Id="7" IsTP="False" Mode="Standard" Receiver="EPM" TestResult="0" Transmitter="ACM">
-                <Signal Name="AHU_AutoConfigOcc_Rear" Value="1 Supported" />
+                <Signal Name="AutoConfigO_Rear" Value="1 Supported" />
                 <Signal Name="AutoConfigO_Allst" Value="1 Supported" />
               </Child_7_d>
               <Child_7_c Description="{x:Null}" DeviceName="{x:Null}" Issues="{x:Null}" ParameterName="{x:Null}" Target="{x:Null}" VIN="{x:Null}" ActionID="3" ActionName="Press &amp; Release" ElementGlobID="2694" ElementID="3715" ElementName="PresetsFM1" ElementTypeID="2" ElementTypeName="Button (soft)" Id="8" ModuleID="233" ModuleName="EPM " Parameter="100" ParameterID="0" ParameterUnit="Time in ms" ScreenID="483" ScreenName="FM_Main_Screen" TestResult="0" UserAction="Press&amp;Release [Presets]; Set FM1 as active source." />
