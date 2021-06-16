@@ -111,7 +111,7 @@ def extract_name_value(signals_df):
     names_list = [
         'Status', 'SetDSP', 'HMI', 'Delay', 'AutoConfigO_Rear', 'CurrTUBand',
         'AutoConfigO_Front', 'AutoConfigO_Drvr','AutoConfigO_Allst',
-        'RUResReqstStat', 'RUReqstrSystem', 'RUSource', 'DSP'
+        'RUResReqstStat', 'RUReqstrSystem', 'RUSource', 'DSP', 'RUReqstrPriority'
     ]
     # print(names_list)
 
