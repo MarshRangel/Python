@@ -1,10 +1,12 @@
 #Import Python Modules
+from re import split
 from tkinter import *
 import os, shutil, easygui
 import xml.etree.ElementTree as ET
 import pandas as pd
 from matplotlib import pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+
 import time
 from datetime import timedelta
 
@@ -33,11 +35,11 @@ def open_file():
         if str(os.path.abspath(xml_Name)) != os.path.join(os.path.abspath(os.getcwd()), os.path.basename(xml_Name)):
             menssage.set("Opened xml file: ", xml_Name)
             tempxml = copyfile(xml_Name)
-            # buttons(os.path.basename(str(tempxml)))
-            transfor_data_atri(os.path.basename(str(tempxml)))
+            child_4_separate(os.path.basename(str(tempxml)))
+            # transfor_data_atri(os.path.basename(str(tempxml)))
         else:
-            # buttons(os.path.basename(str(xml_Name)))
-            transfor_data_atri(os.path.basename(str(xml_Name)))
+            child_4_separate(os.path.basename(str(xml_Name)))
+            # transfor_data_atri(os.path.basename(str(xml_Name)))
     except FileNotFoundError:
         print('XML file was not loaded.')
 
@@ -62,26 +64,52 @@ def downloadImage():
     pass
     #plot.savefig('graph_lines.png')
 
-# Function to display buttons and choose the TestCase to be plotted
-def buttons(xml_Name):
+# Function to display buttons and choose the Child_4 to be plotted
+def child_4_separate(xml_Name):
     print("File: ", xml_Name)
     file_xml = ET.parse(xml_Name)
     data_xml = [
-        {"Name": signal.attrib["Name"],
+        {
+            "Name": signal.attrib["Name"],
+            "Id": signal.attrib["Id"],
          } for signal in file_xml.findall(".//Child_4")
     ]
+    # print(data_xml)
 
     for i in data_xml:
+        print(i)
+        id_tc = i.get('Id')
         dict_tc = str(i.values()).replace('dict_values([\'', '')
         name_tc = dict_tc.replace('\'])', '')
-        Button(root, text=f"TC> {name_tc}", command=downloadImage).pack()
-        # Button(root, text=f"TC> {name_tc}", command=downloadImage).grid(column=0, row=0)
-
-    # transfor_data_atri(xml_Name)
+        # Button(root, text=f"TC> {name_tc}", command=downloadImage()).pack()
+        Button(root, text=f"TC> {name_tc}", command=transfor_data_atri_child_4(xml_Name, id_tc)).pack()
 
 # Function to transform xml file to DataFrame
-def transfor_data_atri(rootXML):
+def transfor_data_atri_child_4(rootXML, id_tc):
     print("File: ", rootXML)
+    print("id_tc: ", id_tc)
+    # file_xml = ET.parse(rootXML)
+    # data_xml = [
+    #     {"Name": signal.attrib["Name"],
+    #      # "Value": signal.attrib["Value"]
+    #      "Value": int(signal.attrib["Value"].split(' ')[0])
+    #      } for signal in file_xml.findall(".//Signal")
+    # ]
+    # # print(data_xml)
+    #
+    # signals_df = pd.DataFrame(data_xml)
+    # # print(signals_df)
+    # # count_signal = signals_df.groupby('Name')['Value'].count()
+    # # print(count_signal)
+    #
+    # extract_name_value(signals_df)
+    # # transfor_data_atri(xml_Name)
+
+
+# Function to transform xml file to DataFrame
+def transfor_data_atri(rootXML, id_tc):
+    print("File: ", rootXML)
+    print("id_tc: ", id_tc)
     file_xml = ET.parse(rootXML)
     data_xml = [
         {"Name": signal.attrib["Name"],
@@ -100,7 +128,7 @@ def transfor_data_atri(rootXML):
 
 # Function to extract the Name and Value attributes
 def extract_name_value(signals_df):
-    # print(signals_df)
+    # print(_signals)
 
     # for i in signals_df.Name:
     #     signal = signals_df[signals_df.Name.isin([i])]
@@ -119,7 +147,9 @@ def extract_name_value(signals_df):
     #     names_list = i
     #     signals = signals_df[signals_df["Name"] == names_list]
     #     print(signals)
-    #     matplotcanvas(signals)
+        # signals_group = signals.groupby(by="Name").count()
+        # print(signals_group)
+        # matplotcanvas(signals)
 
 
     signals = signals_df[signals_df["Name"].isin(names_list)]
