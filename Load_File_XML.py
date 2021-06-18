@@ -66,7 +66,7 @@ def downloadImage():
 
 # Function to display buttons and choose the Child_4 to be plotted
 def child_4_separate(xml_Name):
-    print("File: ", xml_Name)
+    # print("File: ", xml_Name)
     file_xml = ET.parse(xml_Name)
     data_xml = [
         {
@@ -77,12 +77,12 @@ def child_4_separate(xml_Name):
     # print(data_xml)
 
     for i in data_xml:
-        print(i)
+        # print(i)
         id_tc = i.get('Id')
         dict_tc = str(i.values()).replace('dict_values([\'', '')
         name_tc = dict_tc.replace('\'])', '')
-        # Button(root, text=f"TC> {name_tc}", command=downloadImage()).pack()
-        Button(root, text=f"TC> {name_tc}", command=transfor_data_atri_child_4(xml_Name, id_tc)).pack()
+        Button(root, text=f"TC> {name_tc}", command=lambda x=xml_Name, y=id_tc: transfor_data_atri_child_4(x, y)).pack()
+
 
 # Function to transform xml file to DataFrame
 def transfor_data_atri_child_4(rootXML, id_tc):
