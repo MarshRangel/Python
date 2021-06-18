@@ -77,7 +77,6 @@ def child_4_separate(xml_Name):
     # print(data_xml)
 
     for i in data_xml:
-        # print(i)
         id_tc = i.get('Id')
         dict_tc = str(i.values()).replace('dict_values([\'', '')
         name_tc = dict_tc.replace('\'])', '')
@@ -88,19 +87,20 @@ def child_4_separate(xml_Name):
 def transfor_data_atri_child_4(rootXML, id_tc):
     print("File: ", rootXML)
     print("id_tc: ", id_tc)
-    # file_xml = ET.parse(rootXML)
-    # data_xml = [
-    #     {"Name": signal.attrib["Name"],
-    #      # "Value": signal.attrib["Value"]
-    #      "Value": int(signal.attrib["Value"].split(' ')[0])
-    #      } for signal in file_xml.findall(".//Signal")
-    # ]
-    # # print(data_xml)
-    #
-    # signals_df = pd.DataFrame(data_xml)
-    # # print(signals_df)
-    # # count_signal = signals_df.groupby('Name')['Value'].count()
-    # # print(count_signal)
+    file_xml = ET.parse(rootXML)
+    data_xml = [
+        {"Name": signal.attrib["Name"],
+         # "Value": signal.attrib["Value"]
+         "Value": int(signal.attrib["Value"].split(' ')[0])
+         } for signal in file_xml.findall(".//Signal")
+    ]
+    # print(data_xml)
+
+    signals_df = pd.DataFrame(data_xml)
+    print(signals_df)
+
+    # count_signal = signals_df.groupby('Name')['Value'].count()
+    # print(count_signal)
     #
     # extract_name_value(signals_df)
     # # transfor_data_atri(xml_Name)
