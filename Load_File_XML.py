@@ -131,6 +131,7 @@ def transfor_data_atri(rootXML):
     # print(data_xml)
 
     signals_df = pd.DataFrame(data_xml)
+    print(signals_df.groupby(['Name']).size())
     # print(signals_df)
     # count_signal = signals_df.groupby('Name')['Value'].count()
     # print(count_signal)
@@ -148,9 +149,10 @@ def extract_name_value(signals_df):
     #     print(vector)
 
     names_list = [
-        'Status', 'SetDSP', 'HMI', 'Delay', 'AutoConfigO_Rear', 'CurrTUBand',
-        'AutoConfigO_Front', 'AutoConfigO_Drvr','AutoConfigO_Allst',
-        'RUResReqstStat', 'RUReqstrSystem', 'RUSource', 'DSP', 'RUReqstrPriority'
+        'Status', 'CurrTUBand', 'DSP', 'SetDSP', 'HMI', 'Delay',
+        'AutoConfigO_Drvr', 'AutoConfigO_Allst',
+        'RUResReqstStat', 'RUReqstrSystem', 'RUSource', 'RUReqstrPriority'
+        # 'AutoConfigO_Rear', 'AutoConfigO_Front',
     ]
 
     # Creation Graphic
@@ -162,10 +164,10 @@ def extract_name_value(signals_df):
         data = signals_df[signals_df["Name"] == name]["Value"]
         x = [n for n in range(len(data))]
         # add subplots
-        ax = plt.subplot(14, 1, i)
+        ax = plt.subplot(12, 1, i)
         # ax.bar(x, data)  # type of graphic and params is data for graphic
         # ax.set_title(name)
-        ax.plot(x, data, marker='o')
+        ax.step(x, data, marker='o')
         ax.set_ylabel(name, fontsize=16, rotation=55, labelpad=38)
         i += 1
 
