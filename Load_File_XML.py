@@ -35,11 +35,11 @@ def open_file():
         if str(os.path.abspath(xml_Name)) != os.path.join(os.path.abspath(os.getcwd()), os.path.basename(xml_Name)):
             menssage.set("Opened xml file: ", xml_Name)
             tempxml = copyfile(xml_Name)
-            child_4_separate(os.path.basename(str(tempxml)))
-            # transfor_data_atri(os.path.basename(str(tempxml)))
+            # child_4_separate(os.path.basename(str(tempxml)))
+            transfor_data_atri(os.path.basename(str(tempxml)))
         else:
-            child_4_separate(os.path.basename(str(xml_Name)))
-            # transfor_data_atri(os.path.basename(str(xml_Name)))
+            # child_4_separate(os.path.basename(str(xml_Name)))
+            transfor_data_atri(os.path.basename(str(xml_Name)))
     except FileNotFoundError:
         print('XML file was not loaded.')
 
@@ -88,28 +88,39 @@ def transfor_data_atri_child_4(rootXML, id_tc):
     print("File: ", rootXML)
     print("id_tc: ", id_tc)
     file_xml = ET.parse(rootXML)
-    data_xml = [
+    # data_tc = [
+    #     signal for signal in file_xml.findall(".//Child_4/")
+    # ]
+    data_tc = [
+        signal for signal in file_xml.findall(".//Child_4[@Id='150860']/")
+    ]
+    # print(data_tc)
+
+    data_tc_df = pd.DataFrame(data_tc)
+    print("data_tc_df", data_tc_df)
+
+    data_out = [
+        signal for signal in file_xml.findall(".//Child_7_d")
+    ]
+    # print(data_out)
+
+    data_can_in = [
+        signal for signal in file_xml.findall(".//Child_7_da")
+    ]
+    # print(data_in)
+
+    data_signals = [
         {"Name": signal.attrib["Name"],
          # "Value": signal.attrib["Value"]
          "Value": int(signal.attrib["Value"].split(' ')[0])
          } for signal in file_xml.findall(".//Signal")
     ]
-    # print(data_xml)
-
-    signals_df = pd.DataFrame(data_xml)
-    print(signals_df)
-
-    # count_signal = signals_df.groupby('Name')['Value'].count()
-    # print(count_signal)
-    #
-    # extract_name_value(signals_df)
-    # # transfor_data_atri(xml_Name)
+    # print(data_signals)
 
 
 # Function to transform xml file to DataFrame
-def transfor_data_atri(rootXML, id_tc):
+def transfor_data_atri(rootXML):
     print("File: ", rootXML)
-    print("id_tc: ", id_tc)
     file_xml = ET.parse(rootXML)
     data_xml = [
         {"Name": signal.attrib["Name"],
@@ -141,7 +152,24 @@ def extract_name_value(signals_df):
         'AutoConfigO_Front', 'AutoConfigO_Drvr','AutoConfigO_Allst',
         'RUResReqstStat', 'RUReqstrSystem', 'RUSource', 'DSP', 'RUReqstrPriority'
     ]
-    # print(names_list)
+
+    # Creation Graphic
+    fig = plt.figure(figsize=(15, 20))
+    fig.tight_layout()
+    i = 1
+    for name in names_list:
+        # get data
+        data = signals_df[signals_df["Name"] == name]["Value"]
+        x = [n for n in range(len(data))]
+        # add subplots
+        ax = plt.subplot(14, 1, i)
+        # ax.bar(x, data)  # type of graphic and params is data for graphic
+        # ax.set_title(name)
+        ax.plot(x, data, marker='o')
+        ax.set_ylabel(name, fontsize=16, rotation=55, labelpad=38)
+        i += 1
+
+    plt.show()
 
     # for i in signals_df.Name:
     #     names_list = i
@@ -152,9 +180,9 @@ def extract_name_value(signals_df):
         # matplotcanvas(signals)
 
 
-    signals = signals_df[signals_df["Name"].isin(names_list)]
+    # signals = signals_df[signals_df["Name"].isin(names_list)]
     # print(signals)
-    matplotcanvas(signals)
+    # matplotcanvas(signals)
 
 # Function to graph the values of the DataFrame
 def matplotcanvas(signals):
