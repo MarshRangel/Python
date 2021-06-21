@@ -131,7 +131,7 @@ def transfor_data_atri(rootXML):
     # print(data_xml)
 
     signals_df = pd.DataFrame(data_xml)
-    print(signals_df.groupby(['Name']).size())
+    # print(signals_df.groupby(['Name']).size())
     # print(signals_df)
     # count_signal = signals_df.groupby('Name')['Value'].count()
     # print(count_signal)
@@ -140,7 +140,7 @@ def transfor_data_atri(rootXML):
 
 # Function to extract the Name and Value attributes
 def extract_name_value(signals_df):
-    # print(_signals)
+    # print(signals_df)
 
     # for i in signals_df.Name:
     #     signal = signals_df[signals_df.Name.isin([i])]
@@ -148,12 +148,8 @@ def extract_name_value(signals_df):
     #     vector = row_values.iloc[[1]]
     #     print(vector)
 
-    names_list = [
-        'Status', 'CurrTUBand', 'DSP', 'SetDSP', 'HMI', 'Delay',
-        'AutoConfigO_Drvr', 'AutoConfigO_Allst',
-        'RUResReqstStat', 'RUReqstrSystem', 'RUSource', 'RUReqstrPriority'
-        # 'AutoConfigO_Rear', 'AutoConfigO_Front',
-    ]
+    names_list = [name for name in signals_df['Name'].unique()]
+    q_names_list = len(names_list)
 
     # Creation Graphic
     fig = plt.figure(figsize=(15, 20))
@@ -164,23 +160,12 @@ def extract_name_value(signals_df):
         data = signals_df[signals_df["Name"] == name]["Value"]
         x = [n for n in range(len(data))]
         # add subplots
-        ax = plt.subplot(12, 1, i)
-        # ax.bar(x, data)  # type of graphic and params is data for graphic
-        # ax.set_title(name)
+        ax = plt.subplot(q_names_list, 1, i)
         ax.step(x, data, marker='o')
         ax.set_ylabel(name, fontsize=16, rotation=55, labelpad=38)
         i += 1
 
     plt.show()
-
-    # for i in signals_df.Name:
-    #     names_list = i
-    #     signals = signals_df[signals_df["Name"] == names_list]
-    #     print(signals)
-        # signals_group = signals.groupby(by="Name").count()
-        # print(signals_group)
-        # matplotcanvas(signals)
-
 
     # signals = signals_df[signals_df["Name"].isin(names_list)]
     # print(signals)
