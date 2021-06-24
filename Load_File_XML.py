@@ -148,13 +148,12 @@ def extract_name_value(signals_df):
 
     # Creation Graphic
     fig = plt.figure(figsize=(18, 20))
-
+    plt.suptitle(f'File PXML: {rootXML}', fontsize=20, fontweight='bold', color='SteelBlue', position=(0.75, 0.90))
     fig.tight_layout()
     i = 1
     for name in names_list:
         # get data
         data = signals_df[signals_df["Name"] == name]["Value"]
-        plt.suptitle(f'File PXML: {rootXML}', fontsize=20, fontweight='bold', color='SteelBlue', position=(0.75, 0.90))
         datax = signals_df["Name"]
         # x = [n for n in range(len(data))]
         x = [n for n in range(len(datax))]
