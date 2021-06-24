@@ -141,31 +141,42 @@ def transfor_data_atri(rootXML):
 # Function to extract the Name and Value attributes
 def extract_name_value(signals_df):
     # print(signals_df)
-
-    # for i in signals_df.Name:
-    #     signal = signals_df[signals_df.Name.isin([i])]
-    #     row_values = signal.T
-    #     vector = row_values.iloc[[1]]
-    #     print(vector)
-
     names_list = [name for name in signals_df['Name'].unique()]
-    q_names_list = len(names_list)
+    num_names_list = len(names_list)
+
+    colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
 
     # Creation Graphic
-    fig = plt.figure(figsize=(15, 20))
+    fig = plt.figure(figsize=(18, 20))
+
     fig.tight_layout()
     i = 1
     for name in names_list:
         # get data
         data = signals_df[signals_df["Name"] == name]["Value"]
-        x = [n for n in range(len(data))]
+        plt.suptitle(f'File PXML: {rootXML}', fontsize=20, fontweight='bold', color='SteelBlue', position=(0.75, 0.90))
+        datax = signals_df["Name"]
+        # x = [n for n in range(len(data))]
+        x = [n for n in range(len(datax))]
+        print(x)
+        # get color
+        j = random.randint(0, len(colors) - 1)
         # add subplots
-        ax = plt.subplot(q_names_list, 1, i)
-        ax.step(x, data, marker='o')
-        ax.set_ylabel(name, fontsize=16, rotation=55, labelpad=38)
+        ax = plt.subplot(num_names_list, 1, i)
+        ax.plot(x, data, drawstyle='steps', marker='o', color=colors[j], linewidth=3)
+        # plt.xticks(None)
+        # ax.step(x, data, marker='o')
+        ax.set_ylabel(name, fontsize=12, fontweight='bold', color='SteelBlue', rotation=50, labelpad=45)
+        ax.grid(alpha=0.4)
         i += 1
 
     plt.show()
+
+    # for i in can_signals.Name:
+    #     signal = can_signals[can_signals.Name.isin([i])]
+    #     row_values = signal.T
+    #     vector = row_values.iloc[[1]]
+    #     print(vector)
 
     # signals = signals_df[signals_df["Name"].isin(names_list)]
     # print(signals)
