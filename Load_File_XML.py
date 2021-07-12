@@ -1,10 +1,11 @@
-#Import Python Modules
-from re import split
-from tkinter import *
-import os, shutil, easygui
+import tkinter as tk
+import os, easygui
 import xml.etree.ElementTree as ET
+import random
 import pandas as pd
+import numpy as np
 from matplotlib import pyplot as plt
+import matplotlib.ticker as ticker
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 
 import time
@@ -14,195 +15,155 @@ from datetime import timedelta
 start = time.monotonic()
 
 # Root configuration
-root = Tk()
+root = tk.Tk()
 root.title("Graphical Analysis of Signals of a XML")
 root.geometry("1024x820")
 root.pack_propagate(False)
 root.config(bd=15)
-
-# Function to copy the file in the path
-def copyfile(sourcexml):
-    global source
-    source=os.path.realpath(sourcexml)
-    dest = shutil.copy(source,os.getcwd())
-    return dest
-
 # Functions to open xml file
 def open_file():
     try:
         global temxml, xml_Name
         xml_Name = str(easygui.fileopenbox(title='Select xml file', default='*.xml'))
         if str(os.path.abspath(xml_Name)) != os.path.join(os.path.abspath(os.getcwd()), os.path.basename(xml_Name)):
-            menssage.set("Opened xml file: ", xml_Name)
-            tempxml = copyfile(xml_Name)
-            child_4_separate(os.path.basename(str(tempxml)))
-            # transfor_data_atri(os.path.basename(str(tempxml)))
+            # child_4_separate(os.path.basename(str(tempxml)))
+            transfor_data_atri(os.path.basename(str(xml_Name)))
         else:
-            child_4_separate(os.path.basename(str(xml_Name)))
-            # transfor_data_atri(os.path.basename(str(xml_Name)))
+            # child_4_separate(os.path.basename(str(xml_Name)))
+            transfor_data_atri(os.path.basename(str(xml_Name)))
     except FileNotFoundError:
         print('XML file was not loaded.')
-
-# Function to delete the file xml
-def delete_file():
-    os.remove(xml_Name)
 
 # Function to close window
 def exit_win():
     try:
         root.quit()
         root.destroy()
-        delete_file()
         print('XML file removed')
     except NameError:
         print('XML file was not loaded..')
     except FileNotFoundError:
         print('XML file was not loaded...')
 
-# Function to download graph image file
-def downloadImage():
-    pass
-    #plot.savefig('graph_lines.png')
 
-# Function to display buttons and choose the Child_4 to be plotted
-def child_4_separate(xml_Name):
-    # print("File: ", xml_Name)
-    file_xml = ET.parse(xml_Name)
-    data_xml = [
-        {
-            "Name": signal.attrib["Name"],
-            "Id": signal.attrib["Id"],
-         } for signal in file_xml.findall(".//Child_4")
-    ]
-    # print(data_xml)
-
-    for i in data_xml:
-        id_tc = i.get('Id')
-        dict_tc = str(i.values()).replace('dict_values([\'', '')
-        name_tc = dict_tc.replace('\'])', '')
-        Button(root, text=f"TC> {name_tc}", command=lambda x=xml_Name, y=id_tc: transfor_data_atri_child_4(x, y)).pack()
-
-
-# Function to transform xml file to DataFrame
-def transfor_data_atri_child_4(rootXML, id_tc):
-    print("File: ", rootXML)
-    print("id_tc: ", id_tc)
+def transfor_data_atri(rootXML):
     file_xml = ET.parse(rootXML)
-    data_xml = [
+    data_XML = [
         {"Name": signal.attrib["Name"],
-         # "Value": signal.attrib["Value"]
          "Value": int(signal.attrib["Value"].split(' ')[0])
          } for signal in file_xml.findall(".//Signal")
     ]
-    # print(data_xml)
-
-    signals_df = pd.DataFrame(data_xml)
-    print(signals_df)
-
-    # count_signal = signals_df.groupby('Name')['Value'].count()
-    # print(count_signal)
-    #
-    # extract_name_value(signals_df)
-    # # transfor_data_atri(xml_Name)
+    signals_df = pd.DataFrame(data_XML)
+    extract_name_value(signals_df, rootXML)
 
 
-# Function to transform xml file to DataFrame
-def transfor_data_atri(rootXML, id_tc):
-    print("File: ", rootXML)
-    print("id_tc: ", id_tc)
-    file_xml = ET.parse(rootXML)
-    data_xml = [
-        {"Name": signal.attrib["Name"],
-         # "Value": signal.attrib["Value"]
-         "Value": int(signal.attrib["Value"].split(' ')[0])
-         } for signal in file_xml.findall(".//Signal")
-    ]
-    # print(data_xml)
+# function that places the label give the desired position
+def place_label(label, xy, position, ax, rend, pad=0.01):
+    # annotate in the initial position, xy is the top right corner of the bounding box
+    t_ = ax.text(x=xy[0], y=xy[1], s=label, fontsize=16)
 
-    signals_df = pd.DataFrame(data_xml)
-    # print(signals_df)
-    # count_signal = signals_df.groupby('Name')['Value'].count()
-    # print(count_signal)
+    # find useful values
+    tbb = t_.get_window_extent(renderer=rend)
+    abb = ax.get_window_extent(renderer=rend)
+    a_xlim, a_ylim = ax.get_xlim(), ax.get_ylim()
 
-    extract_name_value(signals_df)
+    # now adjust the position if needed
+    new_xy = [xy[0], xy[1]]
+
+    relative_width = tbb.width / abb.width * (a_xlim[1] - a_xlim[0])
+    pad_x = pad * (a_xlim[1] - a_xlim[0])
+    assert (position[0] in ['l', 'c', 'r'])
+    if position[0] == 'c':
+        new_xy[0] -= relative_width / 2
+    elif position[0] == 'l':
+        new_xy[0] -= relative_width + pad_x
+    else:
+        new_xy[0] += pad_x
+
+    relative_height = tbb.height / abb.height * (a_ylim[1] - a_ylim[0])
+    pad_y = pad * (a_ylim[1] - a_ylim[0])
+    assert (position[1] in ['b', 'c', 't'])
+    if position[1] == 'c':
+        new_xy[1] -= relative_height / 2
+    elif position[1] == 'b':
+        new_xy[1] -= relative_height + pad_y
+    else:
+        new_xy[1] += pad_y
+
+    t_.set_position(new_xy)
+
+    return t_
 
 # Function to extract the Name and Value attributes
-def extract_name_value(signals_df):
-    # print(_signals)
+def extract_name_value(signals_df, rootXML):
+    # print(signals_df)
+    names_list = [name for name in signals_df['Name'].unique()]
+    num_names_list = len(names_list)
+    num_axisx = len(signals_df["Name"])
 
-    # for i in signals_df.Name:
-    #     signal = signals_df[signals_df.Name.isin([i])]
-    #     row_values = signal.T
-    #     vector = row_values.iloc[[1]]
-    #     print(vector)
+    colors = ['b', 'g', 'r', 'c', 'm', 'y']
 
-    names_list = [
-        'Status', 'SetDSP', 'HMI', 'Delay', 'AutoConfigO_Rear', 'CurrTUBand',
-        'AutoConfigO_Front', 'AutoConfigO_Drvr','AutoConfigO_Allst',
-        'RUResReqstStat', 'RUReqstrSystem', 'RUSource', 'DSP', 'RUReqstrPriority'
-    ]
-    # print(names_list)
+    # Creation Graphic
+    fig, ax = plt.subplots(nrows=num_names_list, figsize=(20, 30), sharex=True)
+    plt.suptitle(f'File XML: {rootXML}', fontsize=16, fontweight='bold', color='SteelBlue', position=(0.75, 0.95))
+    plt.xticks(np.arange(-1, num_axisx), color='SteelBlue', fontweight='bold')
+    i = 1
+    for pos, name in enumerate(names_list):
+        # get data
+        data = signals_df[signals_df["Name"] == name]["Value"]
+        # get color
+        j = random.randint(0, len(colors) - 1)
+        # get plots by index = pos
+        x = np.hstack([-1, data.index.values, len(signals_df) - 1])
+        y = np.hstack([0, data.values, data.iloc[-1]])
+        print(y)
+        ax[pos].plot(x, y, drawstyle='steps-post', marker='o', color=colors[j], linewidth=3)
+        ax[pos].set_ylabel(name, fontsize=8, fontweight='bold', color='SteelBlue', rotation=30, labelpad=35)
+        ax[pos].yaxis.set_major_formatter(ticker.FormatStrFormatter('%0.1f'))
+        ax[pos].yaxis.set_tick_params(labelsize=6)
+        ax[pos].grid(alpha=0.4)
+        i += 1
+        # Code to label the markers with the values
+        mid_y = 0.5 * (ax[pos].get_ylim()[0] + ax[pos].get_ylim()[1])
+        # now let's label it
+        for i in range(len(x)):
+            # decide what point we annotate
+            if i == 0:
+                xy = [x[0], y[0]]
+            else:
+                xy = [x[i - 1], y[i]]
 
-    # for i in signals_df.Name:
-    #     names_list = i
-    #     signals = signals_df[signals_df["Name"] == names_list]
-    #     print(signals)
-        # signals_group = signals.groupby(by="Name").count()
-        # print(signals_group)
-        # matplotcanvas(signals)
+            # decide its position
+            position_0 = 'l' if i == 0 else 'r'
+            position_1 = 'b' if xy[1] > mid_y else 't'
+        rend = fig.canvas.get_renderer()
+        place_label(label=str(xy[1]), xy=xy, position=position_0 + position_1, ax=ax[pos], rend=rend)
 
+    plt.show()
+    # Embedded chart in Tkinter window
+    canvas = FigureCanvasTkAgg(fig, frame_graphic)
+    canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH)
+    # Navigation bar for the chart
+    toolbar_frame = tk.Frame(master=root)
+    toolbar_frame.grid(row=22, column=4)
+    toolbar = NavigationToolbar2Tk(canvas, toolbar_frame)
+    toolbar.update()
 
-    signals = signals_df[signals_df["Name"].isin(names_list)]
-    # print(signals)
-    matplotcanvas(signals)
-
-# Function to graph the values of the DataFrame
-def matplotcanvas(signals):
-    print(signals)
-
-    graphic = plt.Figure(figsize=(30, 25), dpi=80)
-
-    lines = graphic.add_subplot(111)
-    line1 = FigureCanvasTkAgg(graphic, framegraphic)
-    line1.get_tk_widget().pack(side=LEFT, fill=BOTH)
-
-    # signals.plot(kind='line', rot=110, ax=lines, marker='o', x="Name", legend=True)
-    signals.plot(kind='bar', rot=90, ax=lines, x="Name", legend=True)
-
-    #lines.set_ylim(0, 8)
-    lines.set_title(' Signal changes every occur', fontsize=24)
-    lines.set_xlabel(' Signal Name', fontsize=18)
-    lines.set_ylabel(' Signal Value', fontsize=18)
-
-# Initial buttons
-#Button(root, text="Back", command=back).pack(side='left')
-Button(root, text="Download Chart", command=downloadImage).pack(side='bottom')
-# Button(root, text="Download Chart", command=downloadImage).grid(row=0, column=2, sticky=SE)
 
 # Frame for the chart
-framegraphic = Frame(width='800', height='600')
-framegraphic.pack(side='bottom', padx=1, pady=1)
+frame_graphic = tk.Frame(width='1024', height='896')
+frame_graphic.pack(side='bottom', padx=1, pady=1)
 
 # Top Menu
-menubar = Menu(root)
-filemenu = Menu(menubar, tearoff=0)
+menubar = tk.Menu(root)
+filemenu = tk.Menu(menubar, tearoff=0)
 filemenu.add_command(label="Open File", command=open_file)
 filemenu.add_separator()
 filemenu.add_command(label="Exit", command=exit_win)
-menubar.add_cascade(menu=filemenu, label="File xml")
-
-# Lower Monitor
-menssage = StringVar()
-menssage.set("Open xml file to produce a graph based on  signals and repetitions of these signals")
-monitor = Label(root, textvar=menssage, justify='left')
-monitor.pack(side="top")
+menubar.add_cascade(menu=filemenu, label="File PXML")
 
 # See the menu
 root.config(menu=menubar)
 
 # App loop
 root.mainloop()
-
-# Code efficiency - end
-end = time.monotonic()
-print('Duration: ', timedelta(seconds=end - start))
