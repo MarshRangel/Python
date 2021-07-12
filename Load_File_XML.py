@@ -8,6 +8,12 @@ from matplotlib import pyplot as plt
 import matplotlib.ticker as ticker
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 
+import time
+from datetime import timedelta
+
+# Code efficiency - start
+start = time.monotonic()
+
 # Root configuration
 root = tk.Tk()
 root.title("Graphical Analysis of Signals of a XML")
@@ -39,6 +45,7 @@ def exit_win():
     except FileNotFoundError:
         print('XML file was not loaded...')
 
+
 def transfor_data_atri(rootXML):
     file_xml = ET.parse(rootXML)
     data_XML = [
@@ -46,7 +53,6 @@ def transfor_data_atri(rootXML):
          "Value": int(signal.attrib["Value"].split(' ')[0])
          } for signal in file_xml.findall(".//Signal")
     ]
-
     signals_df = pd.DataFrame(data_XML)
     extract_name_value(signals_df, rootXML)
 
