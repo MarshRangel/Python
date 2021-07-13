@@ -54,7 +54,7 @@ def transfor_data_atri(rootXML):
 # function that places the label give the desired position
 def place_label(label, xy, position, ax, rend, pad=0.01):
     # annotate in the initial position, xy is the top right corner of the bounding box
-    t_ = ax.text(x=xy[0], y=xy[1], s=label, fontsize=16)
+    t_ = ax.text(x=xy[0], y=xy[1], s=label, fontsize=10)
 
     # find useful values
     tbb = t_.get_window_extent(renderer=rend)
@@ -97,34 +97,30 @@ def extract_name_value(signals_df, rootXML):
 
     colors = ['b', 'g', 'r', 'c', 'm', 'y']
 
-    axes_qty = 9
-    axes_gap = 0.035
-
-    fig = plt.figure(figsize=(10, 8))
-    ax = [plt.axes([axes_gap, axes_gap / 2 + i * (1 / axes_qty), 1 - 2 * axes_gap, 1 / axes_qty - axes_gap]) for i in
-          range(axes_qty)]
+    fig, ax = plt.subplots(nrows=num_names_list, figsize=(20, 30), sharex=True)
     plt.suptitle(f'File XML: {rootXML}', fontsize=16, fontweight='bold', color='SteelBlue', position=(0.75, 0.95))
     plt.xticks(np.arange(-1, num_axisx), color='SteelBlue', fontweight='bold')
     rend = fig.canvas.get_renderer()
-
-    for a_, pos, name in ax, enumerate(names_list):
-        # x_ = [random.randint(0, 10) for _ in range(5)]
-        # x_ = np.unique(x_)
-        # y_ = [random.randint(0, 12) for _ in x_]
+    i = 1
+    for pos, (a_, name) in enumerate(zip(ax, names_list)):
         data = signals_df[signals_df["Name"] == name]["Value"]
         # get color
         j = random.randint(0, len(colors) - 1)
         # get plots by index = pos
         x_ = np.hstack([-1, data.index.values, len(signals_df) - 1])
         y_ = np.hstack([0, data.values, data.iloc[-1]])
+        ax[pos].plot(x_, y_, drawstyle='steps-post', marker='o', color=colors[j], linewidth=3)
+        ax[pos].set_ylabel(name, fontsize=8, fontweight='bold', color='SteelBlue', rotation=30, labelpad=35)
+        ax[pos].yaxis.set_major_formatter(ticker.FormatStrFormatter('%0.1f'))
+        ax[pos].yaxis.set_tick_params(labelsize=6)
+        ax[pos].grid(alpha=0.4)
+        i += 1
         # as x is shared, we set the limits in advance, otherwise the adjustments won't be accurate
-        a_.set_xlim([-0.5, 10.5])
-
+        a_.set_xlim([-1, num_axisx])
         # plotting the data
         data_ = [[x_[0], y_[0]]]
         for i in range(1, len(x_)):
             data_ += [[x_[i - 1], y_[i]], [x_[i], y_[i]]]
-        a_.plot([d[0] for d in data_], [d[1] for d in data_])
 
         mid_y = 0.5 * (a_.get_ylim()[0] + a_.get_ylim()[1])
 
