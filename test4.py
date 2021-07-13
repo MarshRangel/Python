@@ -109,6 +109,7 @@ def extract_name_value(signals_df, rootXML):
         # get plots by index = pos
         x_ = np.hstack([-1, data.index.values, len(signals_df) - 1])
         y_ = np.hstack([0, data.values, data.iloc[-1]])
+        # plotting the data
         ax[pos].plot(x_, y_, drawstyle='steps-post', marker='o', color=colors[j], linewidth=3)
         ax[pos].set_ylabel(name, fontsize=8, fontweight='bold', color='SteelBlue', rotation=30, labelpad=35)
         ax[pos].yaxis.set_major_formatter(ticker.FormatStrFormatter('%0.1f'))
@@ -117,10 +118,6 @@ def extract_name_value(signals_df, rootXML):
         i += 1
         # as x is shared, we set the limits in advance, otherwise the adjustments won't be accurate
         a_.set_xlim([-1, num_axisx])
-        # plotting the data
-        data_ = [[x_[0], y_[0]]]
-        for i in range(1, len(x_)):
-            data_ += [[x_[i - 1], y_[i]], [x_[i], y_[i]]]
 
         mid_y = 0.5 * (a_.get_ylim()[0] + a_.get_ylim()[1])
 
