@@ -8,42 +8,36 @@ from itertools import product
 file_xml = ET.parse('example_a_child4.xml')
 rootXML = file_xml.getroot()
 
-def vectorize_values(num_signals, name, x_, y_):
-    print(num_signals, name, x_, y_)
+def vectorize_values(name, x_, y_):
+    # print(name, x_, y_)
+    list_name = [name]
+    list_x = [x_]
+    list_y = [y_]
+    data = [list_name, list_x, list_y]
+    print(data)
+    # pre_data = [[list_name, list_x, list_y]]
+    # for data in pre_data:
+    #     data.append(data)
+    #     print(data)
 
-    # for item in product(*zip(x_, y_)):
-    #     print(item)
+    result = {}
+    for d in data:
+        # print(d)
+        maxi = max(d[1])
+        # print(maxi)
+        arr = np.zeros(maxi + 2)
+        aft = 0
+        for n in range(len(arr)):
+            if n - 1 in d[1]:
+                i = d[1].index(n - 1)
+                aft = d[2][i]
+                arr[n] = aft
+            else:
+                arr[n] = aft
+        result[d[0]] = arr
+        break
 
-    # combined_dict = {}
-    # for i, j in zip(x_, y_):
-    #     combined_dict[i] = j
-    # print(combined_dict)
-
-    zipped = zip(name, x_, y_)
-    # print(zipped)
-
-    for i, (pos, val) in enumerate(zip(x_, y_)):
-        pass
-        # print(i, pos, val)
-
-    for pos, val in zip(x_, y_):
-        pass
-        # print(pos, val)
-
-    for i in y_:
-        pass
-        # print(i)
-        for j in x_:
-            pass
-            # print(i)
-
-    # for i in x_:
-    #     print(i)
-    # for j in y_:
-    #     print(j)
-    # if i > 0 & i != 1:
-    #     zeros = np.zeros(i, dtype=int)
-    #     print(zeros)
+    print(result)
 
 def extract_signals(signals_df):
     num_signals = len(signals_df)
