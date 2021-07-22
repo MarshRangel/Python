@@ -7,32 +7,25 @@ from itertools import product
 
 def vectorize_values(name, x_, y_):
     # print(name, x_, y_)
-    # list_name = [name]
-    # list_x = [x_]
-    # list_y = [y_]
-    pre_data = np.array([x_, y_])
-    data = [name, pre_data]
-    print(data)
-    # pre_data = [[list_name, list_x, list_y]]
-    # for data in pre_data:
-    #     data.append(data)
-    #     print(data)
+    list_name = [name]
+    list_x = [x_]
+    list_y = [y_]
 
     result = {}
-    for d in data:
-        print(d)
-        maxi = max(d[1])
-        print(maxi)
+    for d, d1, d2 in zip(list_name, list_x, list_y):
+        # print(d,d1,d2)
+        maxi = max(d1)
         arr = np.zeros(maxi + 2)
         aft = 0
         for n in range(len(arr)):
-            if n - 1 in d[1]:
-                i = d[1].index(n - 1)
-                aft = d[2][i]
+            if n - 1 in d1:
+                a = np.array(d1)
+                i = list(a).index(n - 1)
+                aft = d2[i]
                 arr[n] = aft
             else:
                 arr[n] = aft
-        result[d[0]] = arr
+        result[d] = arr
         break
 
     print(result)
