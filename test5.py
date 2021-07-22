@@ -5,15 +5,13 @@ import numpy as np
 import operator
 from itertools import product
 
-file_xml = ET.parse('example_a_child4.xml')
-rootXML = file_xml.getroot()
-
 def vectorize_values(name, x_, y_):
     # print(name, x_, y_)
-    list_name = [name]
-    list_x = [x_]
-    list_y = [y_]
-    data = [list_name, list_x, list_y]
+    # list_name = [name]
+    # list_x = [x_]
+    # list_y = [y_]
+    pre_data = np.array([x_, y_])
+    data = [name, pre_data]
     print(data)
     # pre_data = [[list_name, list_x, list_y]]
     # for data in pre_data:
@@ -22,9 +20,9 @@ def vectorize_values(name, x_, y_):
 
     result = {}
     for d in data:
-        # print(d)
+        print(d)
         maxi = max(d[1])
-        # print(maxi)
+        print(maxi)
         arr = np.zeros(maxi + 2)
         aft = 0
         for n in range(len(arr)):
@@ -48,10 +46,13 @@ def extract_signals(signals_df):
         # print(pos, name)
         # get data
         data = signals_df[signals_df["Name"] == name]["Value"]
-        x_ = np.hstack([data.index.values, len(signals_df) - 1])
+        x_ = np.hstack([-1, data.index.values, len(signals_df) - 1])
         y_ = np.hstack([0, data.values, data.iloc[-1]])
         # Data to vectorize
-        vectorize_values(num_signals, name, x_, y_)
+        vectorize_values(name, x_, y_)
+
+file_xml = ET.parse('example_a_child4.xml')
+rootXML = file_xml.getroot()
 
 data_XML = [
     {"Name": signal.attrib["Name"],
