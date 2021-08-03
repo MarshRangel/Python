@@ -10,12 +10,6 @@ from matplotlib import pyplot as plt
 import matplotlib.ticker as ticker
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 
-import time
-from datetime import timedelta
-
-# Code efficiency - start
-start = time.monotonic()
-
 # Root configuration
 root = tk.Tk()
 root.title("Graphical Analysis of Signals of a XML")
@@ -216,10 +210,6 @@ monitor.pack(side="top")
 
 # See the menu
 root.config(menu=menubar)
-
-# Code efficiency - end
-end = time.monotonic()
-print('Duration: ', timedelta(seconds=end - start))
 
 # App loop
 root.mainloop()
