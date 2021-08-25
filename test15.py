@@ -47,14 +47,14 @@ def plot_signals(signals_df):
 
     for pos, (a_, name) in enumerate(zip(ax, names_list)):
         # Matplotlib's categorical feature and to convert x-axis values to string
-        # x_values = [-1, ]
-        # x_values.append(signals_df[signals_df["Name"] == name]["Value"].index.values[0])
-        # x_values.append(len(signals_df) - 1)
-        # x_values = [str(i) for i in sorted(set(x_values))]
-        # print(x_values)
+        x_values = [-1, ]
+        x_values.append(signals_df[signals_df["Name"] == name]["Value"].index.values[0])
+        x_values.append(len(signals_df) - 1)
+        x_values = [str(i) for i in sorted(set(x_values))]
+        print(x_values)
         # Creating a dummy plot and then remove it
-        # dummy, = ax[0].plot(x_values, np.zeros_like(x_values))
-        # dummy.remove()
+        dummy, = ax[0].plot(x_values, np.zeros_like(x_values))
+        dummy.remove()
         # Get data
         data = signals_df[signals_df["Name"] == name]["Value"]
         # Get values axis-x and axis-y
