@@ -52,15 +52,15 @@ def plot_signals(signals_df):
         x_values.append(len(signals_df) - 1)
         x_values = [str(i) for i in sorted(set(x_values))]
         print(x_values)
-        # Creating a dummy plot and then remove it
-        dummy, = ax[0].plot(x_values, np.zeros_like(x_values))
-        dummy.remove()
         # Get data
         data = signals_df[signals_df["Name"] == name]["Value"]
         # Get values axis-x and axis-y
         x_ = np.hstack([-1, data.index.values, len(signals_df) - 1])
         # print(x_)
         y_ = np.hstack([0, data.values, data.iloc[-1]])
+        # Creating a dummy plot and then remove it
+        dummy, = ax[0].plot(x_values, np.zeros_like(x_values))
+        dummy.remove()
         # Plotting the data by position
         ax[pos].plot(x_.astype('str'), y_, drawstyle='steps-post', marker='*', markersize=8, color='k', linewidth=2)
         ax[pos].set_ylabel(name, fontsize=8, fontweight='bold', color='SteelBlue', rotation=30, labelpad=35)
