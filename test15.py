@@ -34,33 +34,23 @@ def plot_signals(signals_df):
     # plt.xticks(np.arange(0, num_axis_x), color='SteelBlue', fontweight='bold')
     plt.xticks(color='SteelBlue', fontweight='bold')
 
-    # Matplotlib's categorical feature and to convert x-axis values to string
-    # x_values = [-1, ]
-    # for name in names_list:
-    #     x_values.append(signals_df[signals_df["Name"] == name]["Value"].index.values[0])
-    # x_values.append(len(signals_df) - 1)
-    # x_values = [str(i) for i in sorted(set(x_values))]
-    # print(x_values)
+    # Matplotlib's categorical feature to convert x-axis values to string
+    x_values = [-1, ]
+    for name in names_list:
+        x_values.append(signals_df[signals_df["Name"] == name]["Value"].index.values[0])
+    x_values.append(len(signals_df) - 1)
+    x_values = [str(i) for i in sorted(set(x_values))]
+    print(x_values)
     # Creating a dummy plot and then remove it
-    # dummy, = ax[0].plot(x_values, np.zeros_like(x_values))
-    # dummy.remove()
+    dummy, = ax[0].plot(x_values, np.zeros_like(x_values))
+    dummy.remove()
 
     for pos, (a_, name) in enumerate(zip(ax, names_list)):
-        # Matplotlib's categorical feature and to convert x-axis values to string
-        x_values = [-1, ]
-        x_values.append(signals_df[signals_df["Name"] == name]["Value"].index.values[0])
-        x_values.append(len(signals_df) - 1)
-        x_values = [str(i) for i in sorted(set(x_values))]
-        print(x_values)
         # Get data
         data = signals_df[signals_df["Name"] == name]["Value"]
         # Get values axis-x and axis-y
         x_ = np.hstack([-1, data.index.values, len(signals_df) - 1])
-        # print(x_)
         y_ = np.hstack([0, data.values, data.iloc[-1]])
-        # Creating a dummy plot and then remove it
-        dummy, = ax[0].plot(x_values, np.zeros_like(x_values))
-        dummy.remove()
         # Plotting the data by position
         ax[pos].plot(x_.astype('str'), y_, drawstyle='steps-post', marker='*', markersize=8, color='k', linewidth=2)
         ax[pos].set_ylabel(name, fontsize=8, fontweight='bold', color='SteelBlue', rotation=30, labelpad=35)
