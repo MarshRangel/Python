@@ -34,7 +34,7 @@ def plot_signals(signals_df):
     # plt.xticks(np.arange(0, num_axis_x), color='SteelBlue', fontweight='bold')
     plt.xticks(color='SteelBlue', fontweight='bold')
 
-    # Matplotlib's categorical feature to convert x-axis values to string
+    # Matplotlib's categorical feature and to convert x-axis values to string
     # x_values = [-1, ]
     # for name in names_list:
     #     x_values.append(signals_df[signals_df["Name"] == name]["Value"].index.values[0])
@@ -46,7 +46,7 @@ def plot_signals(signals_df):
     # dummy.remove()
 
     for pos, (a_, name) in enumerate(zip(ax, names_list)):
-        # Matplotlib's categorical feature to convert x-axis values to string
+        # Matplotlib's categorical feature and to convert x-axis values to string
         # x_values = [-1, ]
         # x_values.append(signals_df[signals_df["Name"] == name]["Value"].index.values[0])
         # x_values.append(len(signals_df) - 1)
