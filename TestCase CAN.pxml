@@ -1,0 +1,78 @@
+<Project Name="TestCase CAN.pxml" SE_Version="3.0.30.0">
+  <Testspec>
+    <FunctionArea Id="5865" Name="Prueba">
+      <Usecase Id="21467" Name="Test Case CAN" SortID="0">
+        <Testcase Id="160590" Name="TC CAN" TestProcedure="" Model="X-Car," Module="(0)," NiHil_Executability="1" TestType="21" IsActive="True" OldId="" IsBFT="False" IsSOT="False" SortID="1" Priority="0" Frequency="0" Description="Prueba">
+          <Flowchart Issues="{x:Null}" SequenceResults="{x:Null}" ApprovalLevel="0" Changelog="test" HasErrors="False" History="Sequence saved. Changelog:  &#xA;[05/07/2021 02:43 p. m.] [mrange21] Sequence saved. Changelog:  &#xA;[05/07/2021 03:11 p. m.] [mrange21] Sequence saved. Changelog:  &#xA;[05/07/2021 03:44 p. m.] [mrange21] Sequence saved. Changelog:  &#xA;[05/07/2021 03:51 p. m.] [mrange21] Sequence saved. Changelog:  &#xA;[14/08/2021 01:27 p. m.] [mrange21] Sequence saved. Changelog: none&#xA;[14/08/2021 01:31 p. m.] [mrange21] Sequence saved. Changelog: none&#xA;[14/08/2021 01:32 p. m.] [mrange21] Sequence saved. Changelog: none&#xA;[14/08/2021 01:40 p. m.] [mrange21] Sequence saved. Changelog: none&#xA;[14/08/2021 01:41 p. m.] [mrange21] Sequence saved. Changelog: none&#xA;[14/08/2021 01:44 p. m.] [mrange21] Sequence saved. Changelog: none&#xA;[26/08/2021 04:12 p. m.] [mrange21] Sequence saved. Changelog:  &#xA;[01/09/2021 02:47 p. m.] [mrange21] Sequence saved. Changelog: none&#xA;[01/09/2021 02:48 p. m.] [mrange21] Sequence saved. Changelog: none" Id="334752" IssueLevel="0" LastRevisedBy="" LastRevisedOn="" SeqID="334752" SequenceStatus="0" SpecReference="" Validated="1" Verified="1" VersionID="1" a_PreCons="System.Collections.ObjectModel.Collection`1[System.Activities.Activity]" b_Event="System.Collections.ObjectModel.Collection`1[System.Activities.Activity]">
+            <Flowchart.a_PreCons>
+              <Act_CANOut CANFrame="{x:Null}" CANTPChk="{x:Null}" Description="{x:Null}" IsFreeTP="{x:Null}" Issues="{x:Null}" TPIndex="{x:Null}" Bus="HS1" CANMessage="0x041 Global_PATS_Control_Info" Duration="0" HasRamp="False" Id="1" IsTP="False" Mode="Standard" Receiver="ECM_HEV,SOBDMC_HPCM" TestResult="0" Transmitter="BCM">
+                <CANSignal Error="{x:Null}" Hexval="0" Name="immoControlCmd_T1" Value="0 IDLE" />
+              </Act_CANOut>
+              <Act_CANIn CANFrame="{x:Null}" Description="{x:Null}" IsFreeTP="{x:Null}" Issues="{x:Null}" TPIndex="{x:Null}" Bus="FD1" CANMessage="0x076 BrakeSnData_5_FD1" HasRamp="False" Id="2" IsTP="False" Mode="Standard" Receiver="GWM" TestResult="0" Transmitter="ABS_ESC_FD">
+                <CANSignal Error="{x:Null}" Hexval="5" Name="BrkTerrMde_D_Actl" Value="5 Rock_Crawl_Mode" />
+              </Act_CANIn>
+              <Parallel Issues="{x:Null}" Id="3">
+                <Sequence Description="{x:Null}" Issues="{x:Null}" Id="4" IsCollapsed="False" IsOrderCrucial="False" TemplateWrapper="False">
+                  <Act_CANIn CANFrame="{x:Null}" Description="{x:Null}" IsFreeTP="{x:Null}" Issues="{x:Null}" TPIndex="{x:Null}" Bus="MS1" CANMessage="0x084 GlobalClock_Data_MS1" HasRamp="False" Id="5" IsTP="False" Mode="Standard" Receiver="Vector__XXX" TestResult="0" Transmitter="GWM">
+                    <CANSignal Error="{x:Null}" Hexval="0,15" Name="GlblClkYr_No_Actl" Value="0 2000,21 2021" />
+                  </Act_CANIn>
+                </Sequence>
+                <Sequence Description="{x:Null}" Issues="{x:Null}" Id="6" IsCollapsed="False" IsOrderCrucial="False" TemplateWrapper="False">
+                  <Act_CANIn CANFrame="{x:Null}" Description="{x:Null}" IsFreeTP="{x:Null}" Issues="{x:Null}" TPIndex="{x:Null}" Bus="FD1" CANMessage="0x07D BrakeSnData_4_FD1" HasRamp="False" Id="7" IsTP="False" Mode="Standard" Receiver="GWM" TestResult="0" Transmitter="ABS_ESC_FD">
+                    <CANSignal Error="{x:Null}" Hexval="4" Name="HsaStat_D_Actl" Value="4 FastRelease" />
+                  </Act_CANIn>
+                  <Act_CANIn CANFrame="{x:Null}" IsFreeTP="{x:Null}" Issues="{x:Null}" TPIndex="{x:Null}" Bus="HS4" CANMessage="0x71E TesterPhysicalResGWM_HS4" Description="description" HasRamp="False" Id="8" IsTP="False" Mode="Standard" Receiver="TSTR" TestResult="0" Transmitter="GWM">
+                    <CANSignal Error="{x:Null}" Hexval="0,1,2" Name="TesterPhysicalResGWM_H4" Value="0 0,1 1,2 2" />
+                  </Act_CANIn>
+                </Sequence>
+                <Sequence Description="{x:Null}" Issues="{x:Null}" Id="9" IsCollapsed="False" IsOrderCrucial="False" TemplateWrapper="False">
+                  <Act_CANOut CANFrame="{x:Null}" CANTPChk="{x:Null}" Description="{x:Null}" IsFreeTP="{x:Null}" Issues="{x:Null}" TPIndex="{x:Null}" Bus="HS2" CANMessage="0x205 Gateway_Data2_HS2" Duration="0" HasRamp="False" Id="10" IsTP="False" Mode="Standard" Receiver="Vector__XXX" TestResult="0" Transmitter="GWM">
+                    <CANSignal Error="{x:Null}" Hexval="1" Name="FapLc_B_Err" Value="1 Yes" />
+                  </Act_CANOut>
+                </Sequence>
+              </Parallel>
+              <Loop Description="{x:Null}" Id="11" Issues="{x:Null}" Unit="{x:Null}" Cycles="3" Duration="0" TimeControlled="False">
+                <Act_CANOut CANFrame="{x:Null}" CANTPChk="{x:Null}" Description="{x:Null}" IsFreeTP="{x:Null}" Issues="{x:Null}" TPIndex="{x:Null}" Bus="MS1" CANMessage="0x313 Power_Liftgate_Mode_StatM" Duration="0" HasRamp="False" Id="12" IsTP="False" Mode="Standard" Receiver="HVAC_RCCM,GWM" TestResult="0" Transmitter="RGTM">
+                  <CANSignal Error="{x:Null}" Hexval="3" Name="DrTGate_D_Rq" Value="3 NotUsed" />
+                </Act_CANOut>
+              </Loop>
+              <Act_AcousticOut CAN="{x:Null}" ChimeSoundId="{x:Null}" ChimeX="{x:Null}" Description="{x:Null}" Issues="{x:Null}" Repetition="{x:Null}" Sound="{x:Null}" Sound_Type="{x:Null}" Subsources="{x:Null}" Id="13" Source="Speakers" />
+            </Flowchart.a_PreCons>
+            <Flowchart.b_Event>
+              <DoWhileUntil Id="14" Issues="{x:Null}" IsWhile="False" MaxLoops="10">
+                <DoWhileUntil.a_Actions Id="15">
+                  <Act_CANIn CANFrame="{x:Null}" Description="{x:Null}" IsFreeTP="{x:Null}" Issues="{x:Null}" TPIndex="{x:Null}" Bus="MS1" CANMessage="0x33B SteeringSw_Stat_MS1" HasRamp="False" Id="16" IsTP="False" Mode="Standard" Receiver="DSM" TestResult="0" Transmitter="GWM">
+                    <CANSignal Error="{x:Null}" Hexval="2" Name="SteClmnSwtchTel_D_Stat" Value="2 Rearward" />
+                  </Act_CANIn>
+                </DoWhileUntil.a_Actions>
+                <DoWhileUntil.b_CancelConditions Id="17">
+                  <Act_CANIn CANFrame="{x:Null}" Description="{x:Null}" IsFreeTP="{x:Null}" Issues="{x:Null}" TPIndex="{x:Null}" Bus="MS1" CANMessage="0x33B SteeringSw_Stat_MS1" HasRamp="False" Id="18" IsTP="False" Mode="Standard" Receiver="DSM" TestResult="0" Transmitter="GWM">
+                    <CANSignal Error="{x:Null}" Hexval="2,0" Name="SteClmnSwtchTel_D_Stat" Value="0 Null,2 Rearward" />
+                  </Act_CANIn>
+                </DoWhileUntil.b_CancelConditions>
+              </DoWhileUntil>
+              <Act_CANOut CANFrame="{x:Null}" CANTPChk="{x:Null}" Description="{x:Null}" IsFreeTP="{x:Null}" Issues="{x:Null}" TPIndex="{x:Null}" Bus="HS1" CANMessage="0x04C RCMStatusMessage2_HS1" Duration="0" HasRamp="False" Id="19" IsTP="False" Mode="Standard" Receiver="SOBDMC_HPCM,ECM_HEV,BCM" TestResult="0" Transmitter="GWM">
+                <CANSignal Error="{x:Null}" Hexval="2" Name="FirstRowBuckleDriver" Value="2 Unbelted" />
+              </Act_CANOut>
+              <Parallel Issues="{x:Null}" Id="20">
+                <Sequence Description="{x:Null}" Issues="{x:Null}" Id="21" IsCollapsed="False" IsOrderCrucial="False" TemplateWrapper="False">
+                  <Act_CANIn CANFrame="{x:Null}" Description="{x:Null}" IsFreeTP="{x:Null}" Issues="{x:Null}" TPIndex="{x:Null}" Bus="HS2" CANMessage="0x242 Body_Info_4_HS2" HasRamp="False" Id="22" IsTP="False" Mode="Standard" Receiver="Vector__XXX" TestResult="0" Transmitter="GWM">
+                    <CANSignal Error="{x:Null}" Hexval="0" Name="FuelPumpPwr_D_Stat" Value="0 Power_On" />
+                  </Act_CANIn>
+                </Sequence>
+                <Sequence Description="{x:Null}" Issues="{x:Null}" Id="23" IsCollapsed="False" IsOrderCrucial="False" TemplateWrapper="False">
+                  <Act_CANOut CANFrame="{x:Null}" CANTPChk="{x:Null}" Description="{x:Null}" IsFreeTP="{x:Null}" Issues="{x:Null}" TPIndex="{x:Null}" Bus="MS1" CANMessage="0x304 Driver_Seat_Information_2" Duration="0" HasRamp="False" Id="24" IsTP="False" Mode="Standard" Receiver="PDM,DDM" TestResult="0" Transmitter="DSM">
+                    <CANSignal Error="{x:Null}" Hexval="1" Name="Cancel_Auto_Movement" Value="1 Cancel" />
+                  </Act_CANOut>
+                </Sequence>
+              </Parallel>
+              <Act_CANOut CANFrame="{x:Null}" CANTPChk="{x:Null}" Description="{x:Null}" IsFreeTP="{x:Null}" Issues="{x:Null}" TPIndex="{x:Null}" Bus="HS4" CANMessage="0x084 GlobalClock_Data_HS4" Duration="0" HasRamp="False" Id="25" IsTP="False" Mode="Standard" Receiver="TCU_EM" TestResult="0" Transmitter="GWM">
+                <CANSignal Error="{x:Null}" Hexval="1" Name="GlblClkDay_No_Actl" Value="1 1-3 3" />
+              </Act_CANOut>
+            </Flowchart.b_Event>
+          </Flowchart>
+        </Testcase>
+      </Usecase>
+    </FunctionArea>
+  </Testspec>
+</Project>
